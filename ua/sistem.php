@@ -2,24 +2,24 @@
 session_start();
 require("../sistem/koneksi.php");
 $hub = open_connection();
+$usr = $_POST['usr'];
+$psw = $_POST['psw'];
 $op = $_GET['op'];
 
 if ($op == "in") {
-    $usr = mysqli_real_escape_string($hub, $_POST['usr']);
-    $psw = mysqli_real_escape_string($hub, $_POST['psw']);
-    $hashed_password = hash("sha256", $psw); 
-
-    $cek = mysqli_query($hub, "SELECT * FROM user WHERE username='$usr' AND password='$hashed_password'");
+    $cek = mysqli_query($hub, "SELECT * FROM user WHERE username='$usr' AND password='$psw' ");
+    
     if (mysqli_num_rows($cek) == 1) {
         $c = mysqli_fetch_array($cek);
         $_SESSION['username'] = $c['username'];
         $_SESSION['jenisuser'] = $c['jenisuser'];
         header("location:index.php");
     } else {
-        echo "<p class='error-message'>Nama Pengguna atau kata sandi salah. <a href='javascript:history.back()'>Kembali</a></p>";
+        die("username / password salah <a href=\"javascript:history.back()\">kembali</a>");
     }
+
     mysqli_close($hub);
-} elseif ($op == "out") {
+} else if ($op == "out") {
     unset($_SESSION['username']);
     unset($_SESSION['jenisuser']);
     header("location:index.php");

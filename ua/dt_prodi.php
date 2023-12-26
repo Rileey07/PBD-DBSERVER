@@ -3,9 +3,9 @@ session_start();
 
 //koneksi ke database
 $host = "localhost";
-$username = "username";
-$password = "password";
-$database = "nama_database";
+$username = "root";
+$password = "";
+$database = "akademik";
 
 $conn = new mysqli($host, $username, $password, $database);
 
